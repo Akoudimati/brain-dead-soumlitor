@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>brain dead soumlitor</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e5e7eb;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        }
+        .title {
+            position: fixed;
+            top: 88px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #f3f4f6;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+        .card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            padding: 16px;
+            width: 90%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .image-box {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            background: #0b1220;
+            border: 1px solid #1f2937;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .name {
+            margin: 4px 0 8px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        #toggleBtn {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #1f2937;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: background 0.2s;
+        }
+        #toggleBtn:hover {
+            background: #111827;
+        }
+        #musicBtn {
+            padding: 10px 18px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #374151;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+        #musicBtn:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">brain dead soumlitor</h1>
+    <div class="card">
+        <div class="image-box">
+            <img id="pepeImg" src="pepe-sad.gif" alt="Pepe image">
+        </div>
+        <div class="name" id="pepeName">Pepe Sad</div>
+        <button id="toggleBtn" type="button">Clicks: 0 - Click to see next Pepe</button>
+        <button id="musicBtn" type="button">▶️ Play Music</button>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="chipi-chipi-chapa-chapa.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        (function () {
+            var pepeImages = [
+                { url: 'pepe-sad.gif', name: 'Pepe Sad' },
+                { url: 'https://i.pinimg.com/736x/b2/a7/2b/b2a72b082c6adbf28d8a4046ff9f54ab.jpg', name: 'Pepe Happy' },
+                { url: 'https://i.pinimg.com/1200x/6d/03/8d/6d038d37d7bc127b5df1a331dce3f974.jpg', name: 'Pepe Smug' },
+                { url: 'https://i.pinimg.com/736x/63/6e/9d/636e9d6d92611c8f493b72fd40b0ef5d.jpg', name: 'Pepe Angry' },
+                { url: 'https://i.pinimg.com/736x/39/82/36/3982365c399edde884b5b2783f1bbfd7.jpg', name: 'Pepe Laugh' },
+
+
+
+                { url: 'https://i.pinimg.com/1200x/36/8b/5e/368b5e4db67fc39f9a7dac529ae700a5.jpg', name: 'Pepe Cry' },
+
+                { url: 'https://i.pinimg.com/736x/14/de/51/14de512da694d43aa6586062202b40dd.jpg', name: 'Pepe Think' },
+                { url: 'https://i.pinimg.com/736x/ec/34/a5/ec34a562c02b00dffe18dcef208d1022.jpg', name: 'Pepe Cool' },
+                { url: 'https://i.pinimg.com/736x/2c/dd/54/2cdd54d84edafde1a7f0ec73703bacbd.jpg', name: 'Pepe Confused' },
+                { url: 'https://i.pinimg.com/736x/c6/2e/12/c62e12090e71aefcbd3f71089a7101b0.jpg', name: 'Pepe Nervous' },
+                { url: 'https://i.pinimg.com/736x/80/eb/0b/80eb0bfd282f1f585d5531beb7549d16.jpg', name: 'Pepe Shocked' },
+                { url: 'https://i.pinimg.com/736x/3c/e3/3c/3ce33cfabd89fda1a97a3f0fbddfda45.jpg', name: 'Pepe Excited' },
+                { url: 'https://i.pinimg.com/736x/a9/78/26/a9782666856f3d137575649a5935609b.jpg', name: 'Pepe Comfy' },
+                { url: 'https://i.pinimg.com/736x/79/9a/de/799adeb9f6e5f8a0e0c47de17d97b284.jpg', name: 'Pepe Tired' },
+                { url: 'https://i.pinimg.com/1200x/c3/85/35/c3853500d41a93a11b731b23652a3279.jpg', name: 'Pepe Worried' },
+                { url: 'https://i.pinimg.com/736x/c5/bc/ae/c5bcae286971bdd787f8cc5bde586ffd.jpg', name: 'Pepe Surprised' },
+                { url: 'https://i.pinimg.com/736x/0e/ac/24/0eac2465cda512010d11bb46763ab9c8.jpg', name: 'Pepe Sleepy' },
+                { url: 'https://i.pinimg.com/736x/bb/27/5a/bb275ac0cf9adb7cef6165fec3b3843e.jpg', name: 'Pepe Dancing' },
+                { url: 'https://i.pinimg.com/1200x/c6/6d/74/c66d74cd977406a773c800539595f921.jpg', name: 'Pepe Chill' },
+                { url: 'https://i.pinimg.com/736x/06/2e/7f/062e7f604724c23681ae79dd3a3114da.jpg', name: 'Pepe Bored' },
+                { url: 'https://i.pinimg.com/736x/ab/70/44/ab70447471f0b79230c891eff25b9c0c.jpg', name: 'Pepe Scared' },
+                { url: 'https://i.pinimg.com/736x/a3/d5/ad/a3d5ad5cd0dea2a42a32754d20d0d185.jpg', name: 'Pepe Grin' }
+            ];
+            
+            var currentIndex = 0;
+            var clickCount = 0;
+
+            var btn = document.getElementById('toggleBtn');
+            var img = document.getElementById('pepeImg');
+            var nameEl = document.getElementById('pepeName');
+            var musicBtn = document.getElementById('musicBtn');
+            var audio = document.getElementById('bgMusic');
+            var isPlaying = false;
+            
+            btn.addEventListener('click', function () {
+                clickCount++;
+                currentIndex = (currentIndex + 1) % pepeImages.length;
+                
+                img.src = pepeImages[currentIndex].url;
+                nameEl.textContent = pepeImages[currentIndex].name;
+                btn.textContent = 'Clicks: ' + clickCount + ' - Click to see next Pepe';
+            });
+
+            musicBtn.addEventListener('click', function () {
+                if (isPlaying) {
+                    audio.pause();
+                    musicBtn.textContent = '▶️ Play Music';
+                    isPlaying = false;
+                } else {
+                    audio.play();
+                    musicBtn.textContent = '⏸️ Stop Music';
+                    isPlaying = true;
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
